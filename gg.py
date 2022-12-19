@@ -193,19 +193,24 @@ class Menu():
      #   mainmenu._open(level)
 
 class Snake():
-    def __init__(self, snake_color):
+    def __init__(self):
         # важные переменные - позиция головы змеи и его тела
         self.snake_head_pos = [100, 50]  # [x, y]
         # начальное тело змеи состоит из трех сегментов
         # голова змеи - первый элемент, хвост - последний
         self.snake_body = [[100, 50], [90, 50], [80, 50]]
-        self.snake_color = snake_color
+        #self.snake_color = snake_color
         # направление движение змеи, изначально
         # зададимся вправо
         self.direction = "RIGHT"
         # куда будет меняться напрвление движения змеи
         # при нажатии соответствующих клавиш
         self.change_to = self.direction
+        self.head_right = pygame.image.load("vupsen.png")
+        self.head_left = pygame.image.load("vupsen2.png")
+        self.head_up = pygame.image.load("вуп.png")
+        self.head_down = pygame.image.load("вуп.png")
+
  
     def validate_direction_and_change(self):
     #"""Изменияем направление движения змеи только в том случае,
@@ -271,9 +276,18 @@ class Snake():
        # """Отображаем все сегменты змеи"""
         play_surface.blit(game.background, (0, 0))
         for pos in self.snake_body:
-        # pygame.Rect(x,y, sizex, sizey)
-            pygame.draw.rect(play_surface, self.snake_color, pygame.Rect(pos[0], pos[1], 10, 10))
- 
+            pygame.draw.rect(play_surface, (248,58,62), pygame.Rect(pos[0], pos[1], 10, 10))
+
+
+        if self.direction == "RIGHT":
+            play_surface.blit(self.head_right, (self.snake_head_pos[0], self.snake_head_pos[1] - 8))
+        elif self.direction == "LEFT":
+            play_surface.blit(self.head_left, (self.snake_head_pos[0] -5, self.snake_head_pos[1] - 8))
+        elif self.direction == "UP":
+            play_surface.blit(self.head_up, (self.snake_head_pos[0] - 5, self.snake_head_pos[1] - 8))
+        elif self.direction == "DOWN":
+            play_surface.blit(self.head_down, (self.snake_head_pos[0] - 5, self.snake_head_pos[1] - 8))
+
     def check_for_boundaries(self, score, game_over, screen_width, screen_height):
         # """Проверка, что столкунлись с концами экрана или сами с собой
         #    (змея закольцевалась)"""
@@ -322,7 +336,7 @@ class Kaka():
         play_surface.blit(self.kaka1, (self.kaka_pos1[0] - 5 , self.kaka_pos1[1] - 5))
 
 game = Game()
-snake = Snake(game.black)
+snake = Snake()
 food = Food(game.brown, game.brown, game.screen_width, game.screen_height)
 kaka = Kaka(game.brown, game.brown, game.screen_width, game.screen_height)
 #menu = Menu()

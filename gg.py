@@ -1,4 +1,5 @@
 import pygame
+from pygame import *
 #import pygame_menu
 #from pygame_menu import themes
 import sys
@@ -165,19 +166,16 @@ class Game():
  #       pygame.surface.update()
   #      clock.tick(60)
 
-
- 
+#pygame.font.init()
+#ARIAL_50 = font.SysFont('arial', 50)
 class Menu():
     def __init__(self):
         self._option_surfaces = []
         self._callbacks = []
         self._current_option_index = 0
-
     def append_option(self, option, callback):
-        AREAL_50 = pygame.font.SysFont(None, 24)
-
-        self._option_surfaces.apped(AREAL_50.render(option, True, (255, 255, 255)))
-        self._callbacks.apped(callback)
+        self._option_surfaces.append(ARIAL_50.render(option, True, (255, 255, 255)))
+        self._callbacks.append(callback)
 
     def swich(self, direction):
         self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
@@ -190,8 +188,8 @@ class Menu():
             option_rect = option.get_rect()
             option_rect.topleft = (x, y + i * option_y_padding)
             if i == self._current_option_index:
-                draw.rect(serf, (0, 100, 0), option_rect)
-            serf.blit(option, option_rect)
+                draw.rect(surf, (0, 100, 0), option_rect)
+            surf.blit(option, option_rect)
 
         
 
@@ -329,24 +327,17 @@ class Food():
       #"""Инит еды"""
         self.food = pygame.image.load('apple.png')
         self.food1 = pygame.image.load('kl.png')
-        #self.food_color = food_color
-        #self.food_size_x = 10
-        #self.food_size_y = 10
         self.food_pos = [random.randrange(1, screen_width/10)*10, random.randrange(1, screen_height/10)*10]
         self.food_pos1 = [random.randrange(1, screen_width/5)*5, random.randrange(1, screen_height/5)*5]
     def draw_food(self, play_surface):
     # """Отображение еды"""
         play_surface.blit(self.food, (self.food_pos[0] - 5 , self.food_pos[1] - 5))
         play_surface.blit(self.food1, (self.food_pos1[0] - 5 , self.food_pos1[1] - 5))
-        #pygame.draw.rect(play_surface, self.food_color, pygame.Rect(self.food_pos[0], self.food_pos[1],self.food_size_x, self.food_size_y))
 class Kaka():
     def __init__(self, kaka, kaka1, screen_width, screen_height):
       #"""Инит еды"""
         self.kaka = pygame.image.load('B.png')
         self.kaka1 = pygame.image.load('W.png')
-        #self.food_color = food_color
-        #self.food_size_x = 10
-        #self.food_size_y = 10
         self.kaka_pos = [random.randrange(1, screen_width/10)*10, random.randrange(1, screen_height/10)*10]
         self.kaka_pos1 = [random.randrange(1, screen_width/5)*5, random.randrange(1, screen_height/5)*5]
     def draw_kaka(self, play_surface):
@@ -364,9 +355,8 @@ kaka = Kaka(game.brown, game.brown, game.screen_width, game.screen_height)
 #menu.draw(game.play_surface, 100, 100, 75)
 game.init_and_check_for_errors()
 game.set_surface_and_title()
-#game.show_menu()
 while True:
-   
+    #menu.draw(game.play_surface, 100, 100, 75)
     snake.change_to = game.event_loop(snake.change_to)
  
     snake.validate_direction_and_change()

@@ -33,7 +33,8 @@ class Game():
     # задаем размеры экрана
         self.screen_width = 720
         self.screen_height = 460
-     
+        pygame.mixer.init()
+        self.play_background_music()
 
         # необходимые цвета
         self.red = pygame.Color(255, 0, 0)
@@ -63,7 +64,7 @@ class Game():
     #   и устанавливаем загаловок окна"""
         
         self.play_surface = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.background = pygame.image.load('grass.png').convert()
+        self.background = pygame.image.load('grr.jpg').convert()
         self.background = pygame.transform.smoothscale(self.background, self.play_surface.get_size())
         #self.backmenu = pygame.image.load('grass.png').convert()
         #self.backmenu = pygame.transform.smoothscale(self.backmenu, self.play_surface.get_size())
@@ -109,17 +110,20 @@ class Game():
             s_rect.midtop = (360, 120)
         # рисуем прямоугольник поверх surface
         self.play_surface.blit(s_surf, s_rect)
-
+    def play_background_music(self):
+        pygame.mixer.music.load("81cebf7e45fdef7.mp3")
+        pygame.mixer.music.play()
     def game_over(self):
       #"""Функция для вывода надписи Game Over и результатов
       #    в случае завершения игры и выход из игры"""
         go_font = pygame.font.SysFont('monaco', 72)
-        go_surf = go_font.render('Game over', True, self.red)
+        go_surf = go_font.render('Game over...', True, self.red)
         go_rect = go_surf.get_rect()
         go_rect.midtop = (360, 15)
         self.play_surface.blit(go_surf, go_rect)
         self.show_score(0)
         pygame.display.flip()
+        pygame.mixer.music.pause()
         time.sleep(3)
         pygame.quit()
         sys.exit()
@@ -234,20 +238,29 @@ class Snake():
         # если съели еду то задаем новое положение еды случайным
         # образом и увеличивем score на один
             food_pos = [random.randrange(1, screen_width/10)*10, random.randrange(1, screen_height/10)*10]
+            sound_f = pygame.mixer.Sound("igrovaya-sreda-audio-energoobespechenie-audio-material-39368.mp3")
+            pygame.mixer.Sound.play(sound_f)
             score += 1
 
         elif((self.snake_head_pos[0] >= food_pos1[0] - 10 and self.snake_head_pos[0] <= food_pos1[0] + 10) and (self.snake_head_pos[1] >= food_pos1[1] - 10 and self.snake_head_pos[1] <= food_pos1[1] + 10)):
             food_pos1 = [random.randrange(1, screen_width/5)*5, random.randrange(1, screen_height/5)*5]
+            sound_f2 = pygame.mixer.Sound("upali-dengi-na-igrovoy-schet.mp3")
+            pygame.mixer.Sound.play(sound_f2)
             score += 2
         elif ((self.snake_head_pos[0] >= kaka_pos[0] - 10 and self.snake_head_pos[0] <= kaka_pos[0] + 10) and (self.snake_head_pos[1] >= kaka_pos[1] - 10 and self.snake_head_pos[1] <= kaka_pos[1] + 10)):
         # если съели еду то задаем новое положение еды случайным
         # образом и увеличивем score на один
             kaka_pos = [random.randrange(1, screen_width/10)*10, random.randrange(1, screen_height/10)*10]
+            sound_ka = pygame.mixer.Sound("zvuk-oshibki-vyibora.mp3")
+            pygame.mixer.Sound.play(sound_ka)
             score -= 1
 
         elif((self.snake_head_pos[0] >= kaka_pos1[0] - 10 and self.snake_head_pos[0] <= kaka_pos1[0] + 10) and (self.snake_head_pos[1] >= kaka_pos1[1] - 10 and self.snake_head_pos[1] <= kaka_pos1[1] + 10)):
             kaka_pos1 = [random.randrange(1, screen_width/5)*5, random.randrange(1, screen_height/5)*5]
+            sound_ka2 = pygame.mixer.Sound("vyibor-nujnoy-igrovoy-kategorii.mp3")
+            pygame.mixer.Sound.play(sound_ka2)
             score -= 2
+
         else:
         # если не нашли еду, то убираем последний сегмент,
         # если этого не сделать, то змея будет постоянно расти
@@ -261,14 +274,15 @@ class Snake():
         # pygame.Rect(x,y, sizex, sizey)
             pygame.draw.rect(play_surface, self.snake_color, pygame.Rect(pos[0], pos[1], 10, 10))
  
-    def check_for_boundaries(self, game_over, screen_width, screen_height):
+    def check_for_boundaries(self, score, game_over, screen_width, screen_height):
         # """Проверка, что столкунлись с концами экрана или сами с собой
         #    (змея закольцевалась)"""
         if any((
                 self.snake_head_pos[0] > screen_width-10
                 or self.snake_head_pos[0] < 0,
                 self.snake_head_pos[1] > screen_height-10
-                or self.snake_head_pos[1] < 0)):
+                or self.snake_head_pos[1] < 0
+                or score < -5)):
             game_over()
         for block in self.snake_body[1:]:
              # проверка на то, что первый элемент(голова) врезался в
@@ -330,7 +344,7 @@ while True:
     food.draw_food(game.play_surface)
     kaka.draw_kaka(game.play_surface)
    
-    snake.check_for_boundaries(game.game_over, game.screen_width, game.screen_height)
+    snake.check_for_boundaries(game.score, game.game_over, game.screen_width, game.screen_height)
     game.show_score()
     
     game.refresh_screen()

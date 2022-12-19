@@ -28,6 +28,20 @@ import time
       #  else:
        #     pygame.draw.rect(self.display, self.inactive_clr, (x, y, self.width, self.height))
         #print_text(message =message, x=x+10, y=y+10, font_size = font_size)
+play_img = pygame.image.load('play-button.png').convert_alfa()
+pause_img = pygame.image.load('pause.png').convert_alfa()
+exit_img = pygame.image.load('remove-button.png').convert_alfa()
+back_img = pygame.image.load('left-arrow.png').convert_alfa()
+class Button():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.top_left = (x, y)
+    def draw(self):
+        #рисует кнопочку
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+exit_button = Button(710, 450, exit_img)
 class Game():
     def __init__(self):
     # задаем размеры экрана
@@ -49,6 +63,10 @@ class Game():
         # переменная для оторбражения результата
         # (сколько еды съели)
         self.score = 0
+        # На паузе ли игра?
+        # self.game_paused = False
+
+        exit_button.draw()
   
     def init_and_check_for_errors(self):
    # """Начальная функция для инициализации и
@@ -89,6 +107,7 @@ class Game():
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+
         return change_to
 
     def refresh_screen(self):

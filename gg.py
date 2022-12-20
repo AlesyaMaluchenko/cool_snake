@@ -1,48 +1,14 @@
 import pygame
 from pygame import *
-#import pygame_menu
-#from pygame_menu import themes
 import sys
 import random
 import time
+import pygame_menu
 
-#class Button:
- #   def __init__(self, width, height, display):
-  #      self.width = width
-   #     self.height = height
-    #    self.inactive_clr = (13, 162, 58)
-     #   self.active_clr = (23, 204, 58)
-      #  self.display = pygame.display.set_mode((720, 460))
-#
- #   def draw(self, x, y, message, action = None, font_size = 30):
-  #      mouse = pygame.mouse.get_pos()
-   #     click = pygame.mouse.get_pressed()
-#
- #       if x < mouse[0] < x + self.width and y < mouse[1] < y + self.height:
-  #          pygame.draw.rect(self.display, self.active_clr, (x, y, self.width, self.height))
-#
- #           if click[0] == 1:
-  #              pygame.mixer.Sound.play(button_sound)
-   #             pygame.time.delay(300)
-    #            if action is not None:
-     #               action()
-      #  else:
-       #     pygame.draw.rect(self.display, self.inactive_clr, (x, y, self.width, self.height))
-        #print_text(message =message, x=x+10, y=y+10, font_size = font_size)
-play_img = pygame.image.load('play-button.png').convert_alfa()
-pause_img = pygame.image.load('pause.png').convert_alfa()
-exit_img = pygame.image.load('remove-button.png').convert_alfa()
-back_img = pygame.image.load('left-arrow.png').convert_alfa()
-class Button():
-    def __init__(self, x, y, image):
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.top_left = (x, y)
-    def draw(self):
-        #рисует кнопочку
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+pygame.init()
+surface = pygame.display.set_mode((600, 400))
 
-exit_button = Button(710, 450, exit_img)
+
 class Game():
     def __init__(self):
     # задаем размеры экрана
@@ -60,15 +26,12 @@ class Game():
         self.play_surface = pygame.display.set_mode((self.screen_width, self.screen_height))
         # будет задавать количество кадров в секунду
         self.fps_controller = pygame.time.Clock()
- 
+
         # переменная для оторбражения результата
         # (сколько еды съели)
         self.score = 0
-        # На паузе ли игра?
-        # self.game_paused = False
 
-        exit_button.draw()
-  
+
     def init_and_check_for_errors(self):
    # """Начальная функция для инициализации и
    #    проверки как запустится pygame"""
@@ -77,21 +40,19 @@ class Game():
             sys.exit()
         else:
             print('Ok')
-  
+
     def set_surface_and_title(self):
     #"""Задаем surface(поверхность поверх которой будет все рисоваться)
     #   и устанавливаем загаловок окна"""
-        
+
         self.play_surface = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.background = pygame.image.load('grr.jpg').convert()
+        self.background = pygame.image.load('grass.png').convert()
         self.background = pygame.transform.smoothscale(self.background, self.play_surface.get_size())
-        #self.backmenu = pygame.image.load('grass.png').convert()
-        #self.backmenu = pygame.transform.smoothscale(self.backmenu, self.play_surface.get_size())
         pygame.display.set_caption('Змейка')
-  
+
     def event_loop(self, change_to):
     # """Функция для отслеживания нажатий клавиш игроком"""
- 
+
         # запускаем цикл по ивентам
         for event in pygame.event.get():
         # если нажали клавишу
@@ -144,70 +105,33 @@ class Game():
         self.show_score(0)
         pygame.display.flip()
         pygame.mixer.music.pause()
-        time.sleep(3)
-        pygame.quit()
-        sys.exit()
+        time.sleep(2)
 
-  #  def show_menu(self):
-   #     menu_bckgr = pygame.image.load('grass.png')
-    #    
-     #   start_btn = Button(300, 70, self.play_surface)
+
 #
- #       show = True
+# class Menu():
+#     def __init__(self):
+#         self._option_surfaces = []
+#         self._callbacks = []
+#         self._current_option_index = 0
+#     def append_option(self, option, callback):
+#         self._option_surfaces.append(ARIAL_50.render(option, True, (255, 255, 255)))
+#         self._callbacks.append(callback)
 #
- #       while show:
-  #          for event in pygame.event.get():
-   #             if event.type == pygame.QUIT:
-    #                pygame.quit()
-     #               quit()
-      #  self.surface.blit(menu_bckgr, (0,0))
-       # start_btn.draw(300, 200, 'Start game')
+#     def swich(self, direction):
+#         self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
 #
- #       pygame.surface.update()
-  #      clock.tick(60)
+#     def select(self):
+#         self._callbacks[self._current_option_index]()
+#
+#     def draw(self, surf, x, y, option_y_padding):
+#         for i, option in enumerate(self._option_surfaces):
+#             option_rect = option.get_rect()
+#             option_rect.topleft = (x, y + i * option_y_padding)
+#             if i == self._current_option_index:
+#                 draw.rect(surf, (0, 100, 0), option_rect)
+#             surf.blit(option, option_rect)
 
-#pygame.font.init()
-#ARIAL_50 = font.SysFont('arial', 50)
-class Menu():
-    def __init__(self):
-        self._option_surfaces = []
-        self._callbacks = []
-        self._current_option_index = 0
-    def append_option(self, option, callback):
-        self._option_surfaces.append(ARIAL_50.render(option, True, (255, 255, 255)))
-        self._callbacks.append(callback)
-
-    def swich(self, direction):
-        self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
-       
-    def select(self):
-        self._callbacks[self._current_option_index]()
-
-    def draw(self, surf, x, y, option_y_padding):
-        for i, option in enumerate(self._option_surfaces):
-            option_rect = option.get_rect()
-            option_rect.topleft = (x, y + i * option_y_padding)
-            if i == self._current_option_index:
-                draw.rect(surf, (0, 100, 0), option_rect)
-            surf.blit(option, option_rect)
-
-        
-
-  #  def surface(self):
-   #     self.surface = pygame.display.set_mode((720, 460))
-        #self.surface.fill(game.green)
-
-    
-    
-   # def set_difficulty(value, difficulty):
-        #print(self.value)
-       # print(self.difficulty)
-
-    #def start_the_game():
-      #  pass
-
-    #def level_menu():
-     #   mainmenu._open(level)
 
 class Snake():
     def __init__(self):
@@ -216,7 +140,6 @@ class Snake():
         # начальное тело змеи состоит из трех сегментов
         # голова змеи - первый элемент, хвост - последний
         self.snake_body = [[100, 50], [90, 50], [80, 50]]
-        #self.snake_color = snake_color
         # направление движение змеи, изначально
         # зададимся вправо
         self.direction = "RIGHT"
@@ -228,7 +151,7 @@ class Snake():
         self.head_up = pygame.image.load("вуп.png")
         self.head_down = pygame.image.load("вуп.png")
 
- 
+
     def validate_direction_and_change(self):
     #"""Изменияем направление движения змеи только в том случае,
     #   если оно не прямо противоположно текущему"""
@@ -248,7 +171,7 @@ class Snake():
             self.snake_head_pos[1] -= 5
         elif self.direction == "DOWN":
             self.snake_head_pos[1] += 5
- 
+
     def snake_body_mechanism(self, score, food_pos, food_pos1, kaka_pos, kaka_pos1, screen_width, screen_height):
         # если вставлять просто snake_head_pos,
         # то на всех трех позициях в snake_body
@@ -315,13 +238,16 @@ class Snake():
                 or self.snake_head_pos[1] < 0
                 or score < -5)):
             game_over()
+            return True
         for block in self.snake_body[1:]:
              # проверка на то, что первый элемент(голова) врезался в
              # любой другой элемент змеи (закольцевались)
             if (block[0] == self.snake_head_pos[0] and block[1] == self.snake_head_pos[1]):
                 game_over()
+                return True
 
- 
+
+
 class Food():
     def __init__(self, food, food1, screen_width, screen_height):
       #"""Инит еды"""
@@ -342,56 +268,31 @@ class Kaka():
         self.kaka_pos1 = [random.randrange(1, screen_width/5)*5, random.randrange(1, screen_height/5)*5]
     def draw_kaka(self, play_surface):
     # """Отображение еды"""
-        play_surface.blit(self.kaka, (self.kaka_pos[0] - 5 , self.kaka_pos[1] - 5))
-        play_surface.blit(self.kaka1, (self.kaka_pos1[0] - 5 , self.kaka_pos1[1] - 5))
-
+        play_surface.blit(self.kaka, (self.kaka_pos[0] - 5, self.kaka_pos[1] - 5))
+        play_surface.blit(self.kaka1, (self.kaka_pos1[0] - 5, self.kaka_pos1[1] - 5))
 game = Game()
 snake = Snake()
 food = Food(game.brown, game.brown, game.screen_width, game.screen_height)
 kaka = Kaka(game.brown, game.brown, game.screen_width, game.screen_height)
-#menu = Menu()
-#menu.append_option('Hello', lambda: print('Hello'))
-#menu.append_option('Quit', quit)
-#menu.draw(game.play_surface, 100, 100, 75)
-game.init_and_check_for_errors()
-game.set_surface_and_title()
-while True:
-    #menu.draw(game.play_surface, 100, 100, 75)
-    snake.change_to = game.event_loop(snake.change_to)
- 
-    snake.validate_direction_and_change()
-    snake.change_head_position()
-    game.score, food.food_pos, food.food_pos1, kaka.kaka_pos, kaka.kaka_pos1 = snake.snake_body_mechanism(game.score, food.food_pos, food.food_pos1, kaka.kaka_pos, kaka.kaka_pos1, game.screen_width, game.screen_height)
-    snake.draw_snake(game.play_surface, game.background)
- 
-    food.draw_food(game.play_surface)
-    kaka.draw_kaka(game.play_surface)
-   
-    snake.check_for_boundaries(game.score, game.game_over, game.screen_width, game.screen_height)
-    game.show_score()
-    
-    game.refresh_screen()
-
-#mainmenu = pygame_menu.Menu('Welcome', 720, 460, theme=themes.THEME_SOLARIZED)
-
-#mainmenu.add.text_input('Name: ', default='username', maxchar=20)
-
-#mainmenu.add.button('Play', menu.start_the_game)
-
-#mainmenu.add.button('Levels', menu.level_menu)
-
-#mainmenu.add.button('Quit', pygame_menu.events.EXIT)
+def start_the_game():
+    game.init_and_check_for_errors()
+    game.set_surface_and_title()
+    while True:
+        snake.change_to = game.event_loop(snake.change_to)
+        snake.validate_direction_and_change()
+        snake.change_head_position()
+        game.score, food.food_pos, food.food_pos1, kaka.kaka_pos, kaka.kaka_pos1 = snake.snake_body_mechanism(game.score, food.food_pos, food.food_pos1, kaka.kaka_pos, kaka.kaka_pos1, game.screen_width, game.screen_height)
+        snake.draw_snake(game.play_surface, game.background)
+        food.draw_food(game.play_surface)
+        kaka.draw_kaka(game.play_surface)
+        if snake.check_for_boundaries(game.score, game.game_over, game.screen_width, game.screen_height):
+            break
+        game.show_score()
+        game.refresh_screen()
 
 
-#level = pygame_menu.Menu('Select a Difficulty', 720, 460, theme=themes.THEME_BLUE)
-
-#level.add.selector('Difficulty:',[('Hard',1),('Easy',2)], onchange=set_difficulty) 
-
- #events = pygame.event.get()
- #   for event in events:
-  #      if event.type == pygame.QUIT:
-   #         exit()
-    #    if mainmenu. is_enabled():
-     #       mainmenu.update(events)
-      #      mainmenu.draw(menu.surface)
-       # pygame.display.update()
+menu = pygame_menu.Menu('Welcome', 400, 300,  theme=pygame_menu.themes.THEME_BLUE)
+menu.add.text_input('Name:', default='Player')
+menu.add.button('Play', start_the_game)
+menu.add.button('Quit', pygame_menu.events.EXIT)
+menu.mainloop(surface)

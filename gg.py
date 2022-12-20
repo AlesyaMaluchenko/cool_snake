@@ -3,7 +3,7 @@ from pygame import *
 import sys
 import random
 import time
-import pygame_menu
+import pygame
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
@@ -69,6 +69,9 @@ class Game():
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
         return change_to
 
@@ -108,29 +111,6 @@ class Game():
         time.sleep(2)
 
 
-#
-# class Menu():
-#     def __init__(self):
-#         self._option_surfaces = []
-#         self._callbacks = []
-#         self._current_option_index = 0
-#     def append_option(self, option, callback):
-#         self._option_surfaces.append(ARIAL_50.render(option, True, (255, 255, 255)))
-#         self._callbacks.append(callback)
-#
-#     def swich(self, direction):
-#         self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
-#
-#     def select(self):
-#         self._callbacks[self._current_option_index]()
-#
-#     def draw(self, surf, x, y, option_y_padding):
-#         for i, option in enumerate(self._option_surfaces):
-#             option_rect = option.get_rect()
-#             option_rect.topleft = (x, y + i * option_y_padding)
-#             if i == self._current_option_index:
-#                 draw.rect(surf, (0, 100, 0), option_rect)
-#             surf.blit(option, option_rect)
 
 
 class Snake():
@@ -291,8 +271,8 @@ def start_the_game():
         game.refresh_screen()
 
 
-menu = pygame_menu.Menu('Welcome', 720, 460,  theme=pygame_menu.themes.THEME_BLUE)
-menu.add.text_input('Name:', default='Player')
-menu.add.button('Play', start_the_game)
-menu.add.button('Quit', pygame_menu.events.EXIT)
+menu = pygame_menu.Menu('Добро пожаловать в змейку', 720, 460,  theme=pygame_menu.themes.THEME_BLUE)
+menu.add.text_input('Имя:', default='Игрок 1')
+menu.add.button('Играть', start_the_game)
+menu.add.button('Выход', pygame_menu.events.EXIT)
 menu.mainloop(surface)

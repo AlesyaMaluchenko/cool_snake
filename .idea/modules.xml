@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< Updated upstream
       <module fileurl="file://$PROJECT_DIR$/.idea/cool_snakee.iml" filepath="$PROJECT_DIR$/.idea/cool_snakee.iml" />
+=======
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/.idea/cool_snake.iml" filepath="$PROJECT_DIR$/.idea/cool_snake.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/cool_snakee.iml" filepath="$PROJECT_DIR$/.idea/cool_snakee.iml" />
+>>>>>>> 3bdc1abe72817e45d32628b5a3193db0af9bae8a
+>>>>>>> Stashed changes
     </modules>
   </component>
 </project>

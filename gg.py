@@ -1,9 +1,11 @@
 import pygame
 from pygame import *
+import pygame_menu
+from pygame_menu import *
 import sys
 import random
 import time
-import pygame_menu
+
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))

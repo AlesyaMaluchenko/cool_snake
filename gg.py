@@ -69,6 +69,9 @@ class Game():
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
         return change_to
 
@@ -105,32 +108,16 @@ class Game():
         self.show_score(0)
         pygame.display.flip()
         pygame.mixer.music.pause()
+        self.score = 0
+
         time.sleep(2)
+        # pygame.quit()
+        # quit()
 
 
-#
-# class Menu():
-#     def __init__(self):
-#         self._option_surfaces = []
-#         self._callbacks = []
-#         self._current_option_index = 0
-#     def append_option(self, option, callback):
-#         self._option_surfaces.append(ARIAL_50.render(option, True, (255, 255, 255)))
-#         self._callbacks.append(callback)
-#
-#     def swich(self, direction):
-#         self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
-#
-#     def select(self):
-#         self._callbacks[self._current_option_index]()
-#
-#     def draw(self, surf, x, y, option_y_padding):
-#         for i, option in enumerate(self._option_surfaces):
-#             option_rect = option.get_rect()
-#             option_rect.topleft = (x, y + i * option_y_padding)
-#             if i == self._current_option_index:
-#                 draw.rect(surf, (0, 100, 0), option_rect)
-#             surf.blit(option, option_rect)
+
+
+
 
 
 class Snake():
@@ -275,6 +262,7 @@ snake = Snake()
 food = Food(game.brown, game.brown, game.screen_width, game.screen_height)
 kaka = Kaka(game.brown, game.brown, game.screen_width, game.screen_height)
 def start_the_game():
+
     game.init_and_check_for_errors()
     game.set_surface_and_title()
     while True:
@@ -290,9 +278,24 @@ def start_the_game():
         game.show_score()
         game.refresh_screen()
 
+    game.score = 0
+    pygame.mixer.music.play()
+    pygame.display.flip()
+    # game.init_and_check_for_errors()
+    # game.set_surface_and_title()
 
-menu = pygame_menu.Menu('Welcome', 400, 300,  theme=pygame_menu.themes.THEME_BLUE)
-menu.add.text_input('Name:', default='Player')
-menu.add.button('Play', start_the_game)
-menu.add.button('Quit', pygame_menu.events.EXIT)
+mytheme = pygame_menu.themes.THEME_ORANGE.copy()
+mytheme.background_color =  (45, 224, 159)
+mytheme.title_background_color = (0, 0, 0)
+mytheme.title_bar_style = pygame_menu.widgets.MENUBAR_STYLE_UNDERLINE
+mytheme.title_font_size = 50
+mytheme.title_font_color = (0, 0, 0)
+mytheme.title_font_shadow = True
+mytheme.title_font_shadow_color = (252, 157, 243)
+mytheme.selection_color = (252, 157, 243)
+
+menu = pygame_menu.menu.Menu('Добро пожаловать в змейку', 720, 460,  theme=mytheme, mouse_motion_selection=True, mouse_visible=True)
+menu.add.text_input('Имя  ', default='Игрок 1')
+menu.add.button('Играть', start_the_game)
+menu.add.button('Выход', pygame_menu.events.EXIT)
 menu.mainloop(surface)

@@ -111,8 +111,8 @@ class Game():
         self.score = 0
 
         time.sleep(2)
-        # pygame.quit()
-        # quit()
+        pygame.quit()
+        quit()
 
 
 
@@ -291,8 +291,8 @@ mytheme.title_bar_style = pygame_menu.widgets.MENUBAR_STYLE_UNDERLINE
 mytheme.title_font_size = 50
 mytheme.title_font_color = (0, 0, 0)
 mytheme.title_font_shadow = True
-mytheme.title_font_shadow_color = (252, 157, 243)
-mytheme.selection_color = (252, 157, 243)
+mytheme.title_font_shadow_color = (10, 74, 59)
+mytheme.selection_color = (10, 74, 59)
 
 menu = pygame_menu.menu.Menu('Добро пожаловать в змейку', 720, 460,  theme=mytheme, mouse_motion_selection=True, mouse_visible=True)
 menu.add.text_input('Имя  ', default='Игрок 1')

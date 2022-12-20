@@ -291,7 +291,7 @@ def start_the_game():
         game.refresh_screen()
 
 
-menu = pygame_menu.Menu('Welcome', 400, 300,  theme=pygame_menu.themes.THEME_BLUE)
+menu = pygame_menu.Menu('Welcome', 720, 460,  theme=pygame_menu.themes.THEME_BLUE)
 menu.add.text_input('Name:', default='Player')
 menu.add.button('Play', start_the_game)
 menu.add.button('Quit', pygame_menu.events.EXIT)
